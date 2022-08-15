@@ -12,7 +12,7 @@ public class UserDaoJDBCImpl implements UserDao {
     public UserDaoJDBCImpl() {
 
     }
-    @Transactional
+
     public void createUsersTable() {
         String createTableSQL = "CREATE TABLE IF NOT EXISTS kata.users (\n" +
                 "  id INT NOT NULL AUTO_INCREMENT,\n" +
@@ -51,7 +51,7 @@ public class UserDaoJDBCImpl implements UserDao {
             dbConnection.setAutoCommit(false);
             statement.execute(createUserSQL);
             dbConnection.commit();
-            System.out.printf("User with name - %s added into DB\n",name);
+            System.out.printf("User with name - %s added into DB\n", name);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
