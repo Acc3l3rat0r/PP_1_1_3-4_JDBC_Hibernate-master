@@ -58,7 +58,6 @@ public class UserDaoJDBCImpl implements UserDao {
                 list.add(new User(resultSet.getString("name"), resultSet.getString("lastName"), (byte) resultSet.getInt("age")));
             }
         } catch (SQLException e) {
-            try { dbConnection.rollback(); } catch (SQLException ex) {System.out.println(ex.getMessage());}
             System.out.println(e.getMessage());
         } finally {
             if (dbConnection != null) try {dbConnection.close();} catch (SQLException e) {System.out.println(e.getMessage());}
