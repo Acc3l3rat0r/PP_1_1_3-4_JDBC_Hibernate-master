@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        /*UserServiceImpl impl = new UserServiceImpl();
+        UserServiceImpl impl = new UserServiceImpl();
 
         //Создание таблицы User(ов)
         impl.createUsersTable();
@@ -29,27 +29,7 @@ public class Main {
         impl.cleanUsersTable();
 
         //Удаление таблицы
-        impl.dropUsersTable();*/
-
-        UserDaoHibernateImpl hbr = new UserDaoHibernateImpl();
-
-        //Создание таблицы User(ов)
-        hbr.createUsersTable();
-
-        //Добавление 4 User(ов) в таблицу
-        for (int i = 0; i < 4; i++) {
-            hbr.saveUser("hhh", "jjj", (byte) 14);
-        }
-
-        //Получение всех User из базы и вывод в консоль
-        List<User> list = hbr.getAllUsers();
-        list.forEach(System.out::println);
-
-        //Очистка таблицы User(ов)
-        hbr.cleanUsersTable();
-
-        //Удаление таблицы
-        hbr.dropUsersTable();
+        impl.dropUsersTable();
 
     }
 }

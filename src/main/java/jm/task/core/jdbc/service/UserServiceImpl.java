@@ -1,42 +1,41 @@
 package jm.task.core.jdbc.service;
 
+import jm.task.core.jdbc.dao.UserDao;
 import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
 import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
 import jm.task.core.jdbc.model.User;
+import jm.task.core.jdbc.util.Util;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    private UserDaoJDBCImpl usr = new UserDaoJDBCImpl();
-    private UserDaoHibernateImpl hbr = new UserDaoHibernateImpl();
+
+    private UserDao usr = new UserDaoJDBCImpl();
 
     public void createUsersTable() {
-        //usr.createUsersTable();
-        hbr.createUsersTable();
+        usr.createUsersTable();
     }
 
     public void dropUsersTable() {
-        //usr.dropUsersTable();
-        hbr.dropUsersTable();
+        usr.dropUsersTable();
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        //usr.saveUser(name,lastName,age);
-        hbr.saveUser(name, lastName, age);
+        usr.saveUser(name,lastName,age);
     }
 
     public void removeUserById(long id) {
-        //usr.removeUserById(id);
-        hbr.removeUserById(id);
+        usr.removeUserById(id);
     }
 
     public List<User> getAllUsers() {
-        //return usr.getAllUsers();
-        return hbr.getAllUsers();
+        return usr.getAllUsers();
     }
 
     public void cleanUsersTable() {
-        //usr.cleanUsersTable();
-        hbr.cleanUsersTable();
+        usr.cleanUsersTable();
     }
 }
