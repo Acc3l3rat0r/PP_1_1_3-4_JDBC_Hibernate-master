@@ -47,20 +47,15 @@ public class UserDaoJDBCImpl implements UserDao {
         String getAllUsersSQL = "SELECT * FROM kata.users";
         List<User> list = new ArrayList<>();
 
-        Connection dbConnection = null;
-        Statement statement;
+        try (Connection dbConnection = Util.getDBConnection();
+             Statement statement = dbConnection.createStatement()) {
 
-        try {
-            dbConnection = Util.getDBConnection();
-            statement = dbConnection.createStatement();
             ResultSet resultSet = statement.executeQuery(getAllUsersSQL);
             while (resultSet.next()) {
                 list.add(new User(resultSet.getString("name"), resultSet.getString("lastName"), (byte) resultSet.getInt("age")));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        } finally {
-            if (dbConnection != null) try {dbConnection.close();} catch (SQLException e) {System.out.println(e.getMessage());}
         }
         return list;
     }
