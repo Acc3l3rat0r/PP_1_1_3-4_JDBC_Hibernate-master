@@ -31,10 +31,25 @@ public class Main {
         //Удаление таблицы
         impl.dropUsersTable();*/
 
-
         UserDaoHibernateImpl hbr = new UserDaoHibernateImpl();
-        //hbr.createUsersTable();
-        //hbr.dropUsersTable();
-        //hbr.saveUser("lol","kek", (byte) 15);
+
+        //Создание таблицы User(ов)
+        hbr.createUsersTable();
+
+        //Добавление 4 User(ов) в таблицу
+        for (int i = 0; i < 4; i++) {
+            hbr.saveUser("hhh", "jjj", (byte) 14);
+        }
+
+        //Получение всех User из базы и вывод в консоль
+        List<User> list = hbr.getAllUsers();
+        list.forEach(System.out::println);
+
+        //Очистка таблицы User(ов)
+        hbr.cleanUsersTable();
+
+        //Удаление таблицы
+        hbr.dropUsersTable();
+
     }
 }

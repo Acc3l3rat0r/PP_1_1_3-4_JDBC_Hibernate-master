@@ -37,8 +37,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
         String dropUserTableSQL = "DROP TABLE IF EXISTS kata.users";
 
-        Query query = session.createSQLQuery(dropUserTableSQL).addEntity(User.class);
-        query.executeUpdate();
+        session.createSQLQuery(dropUserTableSQL).addEntity(User.class).executeUpdate();
         transaction.commit();
         session.close();
     }
@@ -46,25 +45,38 @@ public class UserDaoHibernateImpl implements UserDao {
     @Override
     public void saveUser(String name, String lastName, byte age) {
         Session session = getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-        User user = new User(name,lastName,age);
+        session.beginTransaction();
+        User user = new User(name, lastName, age);
         session.save(user);
-        transaction.commit();
+        session.getTransaction().commit();
         session.close();
     }
 
     @Override
     public void removeUserById(long id) {
-
+        Session session = getSessionFactory().openSession();
+        session.beginTransaction();
+        session.remove(session.get(User.class, id));
+        session.getTransaction().commit();
+        session.close();
     }
 
     @Override
     public List<User> getAllUsers() {
-
+        Session session = getSessionFactory().openSession();
+        session.beginTransaction();
+        List<User> list = session.createQuery("from User").getResultList();
+        session.getTransaction().commit();
+        session.close();
+        return list;
     }
 
     @Override
     public void cleanUsersTable() {
-
+        Session session = getSessionFactory().openSession();
+        session.beginTransaction();
+        session.createNativeQuery("truncate table kata.users").executeUpdate();
+        session.getTransaction().commit();
+        session.close();
     }
 }
