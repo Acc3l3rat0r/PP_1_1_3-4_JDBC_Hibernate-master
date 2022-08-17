@@ -21,7 +21,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Session session = getSessionFactory().openSession();
         Transaction transaction = null;
 
-        String createTableSQL = "CREATE TABLE IF NOT EXISTS kata.users " +
+        String createTableSQL = "CREATE TABLE IF NOT EXISTS users " +
                 "(id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
                 "name VARCHAR(50) NOT NULL, lastName VARCHAR(50) NOT NULL, " +
                 "age TINYINT NOT NULL)";
@@ -39,7 +39,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public void dropUsersTable() {
         Session session = getSessionFactory().openSession();
         Transaction transaction = null;
-        String dropUserTableSQL = "DROP TABLE IF EXISTS kata.users";
+        String dropUserTableSQL = "DROP TABLE IF EXISTS users";
         try (session) {
             transaction = session.beginTransaction();
             session.createSQLQuery(dropUserTableSQL).addEntity(User.class).executeUpdate();
@@ -78,9 +78,12 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public List<User> getAllUsers() {
-        Session session = getSessionFactory().openSession();
         List<User> list = new ArrayList<>();
-        list = session.createQuery("from User").getResultList();
+        try (Session session = getSessionFactory().openSession();){
+            list = session.createQuery("SELECT a FROM User a", User.class).getResultList();
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
         return list;
     }
 
@@ -90,7 +93,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = null;
         try (session) {
             transaction = session.beginTransaction();
-            session.createNativeQuery("truncate table kata.users").executeUpdate();
+            session.createNativeQuery("truncate table users").executeUpdate();
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
