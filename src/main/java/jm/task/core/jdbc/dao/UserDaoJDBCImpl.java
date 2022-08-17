@@ -70,11 +70,11 @@ public class UserDaoJDBCImpl implements UserDao {
         try (Connection dbConnection = Util.getDBConnection()) {
             try (Statement statement = dbConnection.createStatement()) {
                 statement.execute(sql);
+                dbConnection.commit();
             } catch (SQLException e) {
                 dbConnection.rollback();
                 System.out.println(e.getMessage());
             }
-            dbConnection.commit();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
